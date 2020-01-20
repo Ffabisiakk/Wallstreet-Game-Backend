@@ -1,0 +1,13 @@
+package pl.hollow.wallstreet;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class WallstreetApplicationTests {
+
+	@Test
+	void contextLoads() {
+	}
+
+}
