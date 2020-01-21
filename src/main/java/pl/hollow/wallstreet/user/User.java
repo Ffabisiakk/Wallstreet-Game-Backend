@@ -3,33 +3,24 @@ package pl.hollow.wallstreet.user;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.math.BigDecimal;
+
 @Document(collection = "users")
 class User {
 
     @Id
-    private String id;
-
     private String nickname;
     private String email;
-    private Long cash;
-    private Float bitcoins;
+    private BigDecimal cash;
+    private BigDecimal bitcoin;
 
     public User() {
     }
 
-    public User(String nickname, String email, Long cash, Float bitcoins) {
-        this.nickname = nickname;
+    public User(String email, BigDecimal cash, BigDecimal bitcoin) {
         this.email = email;
         this.cash = cash;
-        this.bitcoins = bitcoins;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+        this.bitcoin = bitcoin;
     }
 
     public String getNickname() {
@@ -48,19 +39,19 @@ class User {
         this.email = email;
     }
 
-    public Long getCash() {
+    public BigDecimal getCash() {
         return cash;
     }
 
-    public void setCash(Long cash) {
+    public void setCash(BigDecimal cash) {
         this.cash = cash;
     }
 
-    public Float getBitcoins() {
-        return bitcoins;
+    public BigDecimal getBitcoin() {
+        return bitcoin;
     }
 
-    public void setBitcoins(Float bitcoins) {
-        this.bitcoins = bitcoins;
+    public void setBitcoin(BigDecimal bitcoin) {
+        this.bitcoin = bitcoin;
     }
 }

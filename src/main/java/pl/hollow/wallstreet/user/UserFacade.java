@@ -20,8 +20,8 @@ public class UserFacade {
         return userService.getUsers();
     }
 
-    public User getUser(String id) throws EntityNotFoundException {
-        return userService.getUser(id);
+    public User getUser(String username) throws EntityNotFoundException {
+        return userService.getUser(username);
     }
 
     public void createUser(User user) {
@@ -32,7 +32,7 @@ public class UserFacade {
         return userService.updateUser(user);
     }
 
-    public void deleteUser(String id) {
-        userService.deleteUser(id);
+    public void deleteUser(String username) {
+        userService.deleteUser(username);
     }
 }

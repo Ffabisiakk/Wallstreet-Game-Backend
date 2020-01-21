@@ -20,8 +20,8 @@ class UserService {
         return userRepository.findAll();
     }
 
-    public User getUser(String id) throws EntityNotFoundException {
-        return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User id: " + id));
+    public User getUser(String username) throws EntityNotFoundException {
+        return userRepository.findById(username).orElseThrow(() -> new EntityNotFoundException("Username: " + username));
     }
 
     public void createUser(User user) {
@@ -32,7 +32,7 @@ class UserService {
         return userRepository.save(user);
     }
 
-    public void deleteUser(String id) {
-        userRepository.deleteById(id);
+    public void deleteUser(String username) {
+        userRepository.deleteById(username);
     }
 }
