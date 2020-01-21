@@ -2,8 +2,10 @@ package pl.hollow.wallstreet.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import pl.hollow.wallstreet.client.BlockchainInfoClient;
 import pl.hollow.wallstreet.user.dto.UserDto;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -11,6 +13,9 @@ import java.util.List;
 class UserController {
 
     private UserFacade userFacade;
+
+    @Autowired
+    BlockchainInfoClient client;
 
     @Autowired
     public UserController(UserFacade userFacade) {
@@ -40,5 +45,11 @@ class UserController {
     @DeleteMapping("/{username}")
     public void deleteUser(@PathVariable String username) {
         userFacade.deleteUser(username);
+    }
+
+    @GetMapping("/test")
+    public BigDecimal getRates() {
+        System.out.println(client.getBitcoinCurrencyRate("PLN", "1000000").toString());
+        return client.getBitcoinCurrencyRate("PLN", "1000000");
     }
 }

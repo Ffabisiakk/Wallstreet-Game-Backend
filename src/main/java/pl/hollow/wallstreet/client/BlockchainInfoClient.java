@@ -19,7 +19,7 @@ public class BlockchainInfoClient {
 
     public BigDecimal getBitcoinCurrencyRate(String currency, String amount) {
         return restTemplate.getForObject(StringUtil
-                .format("https://blockchain.info/tobtc?{}&{}", currency, amount),
+                .format("https://blockchain.info/tobtc?currency={}&amount={}", currency, amount),
                 BigDecimal.class);
     }
 }
