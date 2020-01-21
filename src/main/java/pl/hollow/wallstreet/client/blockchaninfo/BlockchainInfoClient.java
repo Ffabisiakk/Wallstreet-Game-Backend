@@ -1,11 +1,9 @@
-package pl.hollow.wallstreet.client;
+package pl.hollow.wallstreet.client.blockchaninfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import pl.hollow.wallstreet.util.StringUtil;
-
-import java.math.BigDecimal;
 
 @Component
 public class BlockchainInfoClient {
@@ -18,8 +16,7 @@ public class BlockchainInfoClient {
     }
 
     public String getBitcoinCurrencyRate(String currency, String amount) {
-        return restTemplate.getForObject(StringUtil
-                .format("https://blockchain.info/tobtc?currency={}&value={}", currency, amount),
-                String.class);
+        String uri = StringUtil.format("https://blockchain.info/tobtc?currency={}&value={}", currency, amount);
+        return restTemplate.getForObject(uri, String.class);
     }
 }
