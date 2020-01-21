@@ -2,44 +2,41 @@ package pl.hollow.wallstreet.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import pl.hollow.wallstreet.client.BlockchainInfoClient;
 import pl.hollow.wallstreet.user.dto.UserDto;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
 @RequestMapping("/users")
 class UserController {
 
+    private UserMapper userMapper;
     private UserFacade userFacade;
 
     @Autowired
-    BlockchainInfoClient client;
-
-    @Autowired
-    public UserController(UserFacade userFacade) {
+    public UserController(UserMapper userMapper, UserFacade userFacade) {
+        this.userMapper = userMapper;
         this.userFacade = userFacade;
     }
 
     @GetMapping
     public List<UserDto> getUsers() {
-        return UserMapper.INSTANCE.usersToUserDtos(userFacade.getUsers());
+        return userMapper.usersToUserDtos(userFacade.getUsers());
     }
 
     @GetMapping("/{username}")
     public UserDto getUser(@PathVariable String username) {
-        return UserMapper.INSTANCE.userToUserDto(userFacade.getUser(username));
+        return userMapper.userToUserDto(userFacade.getUser(username));
     }
 
     @PostMapping
     public void createUser(@RequestBody UserDto userDto) {
-        userFacade.createUser(UserMapper.INSTANCE.userDtoToUser(userDto));
+        userFacade.createUser(userMapper.userDtoToUser(userDto));
     }
 
     @PutMapping
     public UserDto updateUser(@RequestBody UserDto userDto) {
-        return UserMapper.INSTANCE.userToUserDto(userFacade.updateUser(UserMapper.INSTANCE.userDtoToUser(userDto)));
+        return userMapper.userToUserDto(userFacade.updateUser(userMapper.userDtoToUser(userDto)));
     }
 
     @DeleteMapping("/{username}")
@@ -47,9 +44,4 @@ class UserController {
         userFacade.deleteUser(username);
     }
 
-    @GetMapping("/test")
-    public BigDecimal getRates() {
-        System.out.println(client.getBitcoinCurrencyRate("PLN", "1000000").toString());
-        return client.getBitcoinCurrencyRate("PLN", "1000000");
-    }
 }

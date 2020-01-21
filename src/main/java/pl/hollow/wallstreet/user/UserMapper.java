@@ -2,18 +2,16 @@ package pl.hollow.wallstreet.user;
 
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapping;
 import pl.hollow.wallstreet.user.dto.UserDto;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
-@Component
+@Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface UserMapper {
-    
-    UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
-
+//
+//    @Mapping(source = "cash", numberFormat = "#.##E0", target = "cash")
+//    @Mapping(source = "bitcoin", numberFormat = "#.##E0", target = "bitcoin")
     UserDto userToUserDto(User user);
     User userDtoToUser(UserDto userDto);
     List<UserDto> usersToUserDtos(List<User> users);
