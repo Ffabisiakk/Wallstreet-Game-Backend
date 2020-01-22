@@ -9,6 +9,6 @@ import java.util.List;
 interface RateMapper {
 
     RateDto rateToRateDto(Rate rate);
-    void rateDtoToRate(RateDto rateDto, @MappingTarget Rate rate);
+    Rate rateDtoToRate(RateDto rateDto);
     List<RateDto> ratesToRateDtos(List<Rate> rates);
 }
