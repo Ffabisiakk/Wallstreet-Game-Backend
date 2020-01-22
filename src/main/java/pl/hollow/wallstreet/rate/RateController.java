@@ -19,28 +19,28 @@ public class RateController {
         this.rateMapper = rateMapper;
     }
 
-    @GetMapping
+    @GetMapping("")
     public List<RateDto> getRates() {
         return rateMapper.ratesToRateDtos(rateFacade.getRates());
     }
 
-    @GetMapping
-    public RateDto getRate(String date) {
+    @GetMapping("/{date}")
+    public RateDto getRate(@PathVariable String date) {
         return rateMapper.rateToRateDto(rateFacade.getRate(date));
     }
 
-    @PostMapping
-    public void createRate(RateDto rateDto) {
+    @PostMapping("")
+    public void createRate(@RequestBody RateDto rateDto) {
         rateFacade.createRate(rateMapper.rateDtoToRate(rateDto));
     }
 
-    @PutMapping
-    public RateDto updateRate(RateDto rateDto) {
+    @PutMapping("")
+    public RateDto updateRate(@RequestBody RateDto rateDto) {
         return rateMapper.rateToRateDto(rateFacade.updateRate(rateMapper.rateDtoToRate(rateDto)));
     }
 
-    @DeleteMapping
-    public void deleteRate(String date) {
+    @DeleteMapping("/{date}")
+    public void deleteRate(@PathVariable String date) {
         rateFacade.deleteRate(date);
     }
 }

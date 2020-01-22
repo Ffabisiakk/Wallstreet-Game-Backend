@@ -41,6 +41,8 @@ class Rate {
         this.gbpRate = gbpRate;
     }
 
+
+
     public String getDate() {
         return date;
     }
