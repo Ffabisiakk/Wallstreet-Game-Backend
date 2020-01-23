@@ -1,5 +1,7 @@
 package pl.hollow.wallstreet.rate;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.hollow.wallstreet.client.blockchaninfo.BlockchainInfoClient;
@@ -15,6 +17,8 @@ import java.util.List;
 @Service
 class RateService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(RateService.class);
+
     private RateRepository rateRepository;
     private ExternalRatesClient ratesClient;
     private BlockchainInfoClient bitcoinClient;
@@ -27,6 +31,7 @@ class RateService {
     }
 
     public void generateRecentRates() {
+        LOGGER.info("Creating most recent rate");
         Rate rate = new Rate();
         FullRatesDto fullRatesDto = ratesClient.getCurrencyRates("PLN");
         String bitcoinsAmountForBillionPln = bitcoinClient.getBitcoinCurrencyRate("PLN", "1000000000");
@@ -34,25 +39,30 @@ class RateService {
 
     }
 
+    public List<Rate> getRates() {
+        LOGGER.info("Fetching list of all rates.");
+        return rateRepository.findAll();
+    }
+
     public Rate getRate(String date) {
+        LOGGER.info("Fetching rate {}", date);
         return rateRepository.findById(date)
                 .orElseThrow(() -> new EntityNotFoundException("Rate history from " + StringUtil.getDate(date) +
                         " " + Integer.parseInt(date.substring(8)) + ":00 unavailable"));
     }
 
-    public List<Rate> getRates() {
-        return rateRepository.findAll();
-    }
-
     public void createRate(Rate rate) {
+        LOGGER.info("Creating rate {}", rate.getDate());
         rateRepository.save(rate);
     }
 
     public Rate updateRate(Rate rate) {
+        LOGGER.info("Updating rate {}", rate.getDate());
         return rateRepository.save(rate);
     }
 
     public void deleteRate(String date) {
+        LOGGER.info("Deleting rate {}", date);
         rateRepository.deleteById(date);
     }
 }
