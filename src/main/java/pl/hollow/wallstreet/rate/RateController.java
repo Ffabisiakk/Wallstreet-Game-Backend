@@ -7,7 +7,7 @@ import pl.hollow.wallstreet.rate.dto.RateDto;
 import java.util.List;
 
 @RestController
-@RequestMapping("/rate")
+@RequestMapping("/rates")
 public class RateController {
 
     private RateFacade rateFacade;
