@@ -3,6 +3,9 @@ package pl.hollow.wallstreet.util;
 import org.slf4j.helpers.MessageFormatter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class StringUtil {
 
@@ -10,10 +13,22 @@ public class StringUtil {
         return MessageFormatter.arrayFormat(msg, objs).getMessage();
     }
 
-    public static LocalDate getDate(String date) {
-        int year = Integer.parseInt(date.substring(0, 4));
-        int month = Integer.parseInt(date.substring(4, 6));
-        int day = Integer.parseInt(date.substring(6, 8));
-        return LocalDate.of(year, month, day);
+    public static LocalDateTime getDate(String date) {
+        String pattern = "yyyyMMddHH";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+        return LocalDateTime.from(formatter.parse(date));
+    }
+
+    public static String getDate(LocalDateTime localDateTime) {
+        String pattern = "yyyyMMddHH";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+        return formatter.format(localDateTime);
+    }
+
+    public static String formatDate(String date) {
+        LocalDateTime localDateTime = getDate(date);
+        String pattern = "yyyy-MM-dd HH:mm";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+        return formatter.format(localDateTime);
     }
 }

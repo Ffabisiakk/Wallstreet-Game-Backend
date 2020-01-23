@@ -9,6 +9,7 @@ import java.util.List;
 interface RateMapper {
 
     RateDto rateToRateDto(Rate rate);
+    @Mapping(target = "currencyRates", ignore = true)
     Rate rateDtoToRate(RateDto rateDto);
     List<RateDto> ratesToRateDtos(List<Rate> rates);
 }

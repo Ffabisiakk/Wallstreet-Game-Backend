@@ -12,7 +12,10 @@ import pl.hollow.wallstreet.util.StringUtil;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 class RateService {
@@ -31,12 +34,16 @@ class RateService {
     }
 
     public void generateRecentRates() {
-        LOGGER.info("Creating most recent rate");
         Rate rate = new Rate();
         FullRatesDto fullRatesDto = ratesClient.getCurrencyRates("PLN");
         String bitcoinsAmountForBillionPln = bitcoinClient.getBitcoinCurrencyRate("PLN", "1000000000");
-        BigDecimal bitcoinRate = BigDecimal.ONE.divide(new BigDecimal(bitcoinsAmountForBillionPln), RoundingMode.UP);
-
+        BigDecimal bitcoinRate = new BigDecimal("1000000000").divide(new BigDecimal(bitcoinsAmountForBillionPln), RoundingMode.UP);
+        String date = StringUtil.getDate(LocalDateTime.now());
+        rate.setDate(date);
+        rate.setBitcoinRate(bitcoinRate);
+        rate.setCurrencyRates(fullRatesDto);
+        LOGGER.info("Generating most recent rate {}", date);
+        rateRepository.save(rate);
     }
 
     public List<Rate> getRates() {
@@ -47,8 +54,22 @@ class RateService {
     public Rate getRate(String date) {
         LOGGER.info("Fetching rate {}", date);
         return rateRepository.findById(date)
-                .orElseThrow(() -> new EntityNotFoundException("Rate history from " + StringUtil.getDate(date) +
-                        " " + Integer.parseInt(date.substring(8)) + ":00 unavailable"));
+                .orElseThrow(() -> new EntityNotFoundException(StringUtil.format("Rate {} unavailable", date)));
+    }
+
+    public Rate getRecentRate() {
+        List<Rate> rateList = rateRepository.findAll();
+        List<String> dateList = rateList.stream()
+                .map(Rate::getDate)
+                .sorted(Collections.reverseOrder())
+                .collect(Collectors.toList());
+        if (dateList.size() != 0) {
+            String mostRecentDate = dateList.get(0);
+            LOGGER.info("Fetching most recent rate {}", mostRecentDate);
+            return rateRepository.findById(mostRecentDate).get();
+        } else {
+            throw new EntityNotFoundException("Can't fetch any rates.");
+        }
     }
 
     public void createRate(Rate rate) {

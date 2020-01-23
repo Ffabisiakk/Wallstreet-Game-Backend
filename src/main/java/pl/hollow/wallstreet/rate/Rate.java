@@ -2,8 +2,12 @@ package pl.hollow.wallstreet.rate;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import pl.hollow.wallstreet.client.externalrates.dto.FullRatesDto;
+import pl.hollow.wallstreet.client.externalrates.dto.RatesDto;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Document(collection = "rates")
 class Rate {
@@ -41,7 +45,20 @@ class Rate {
         this.gbpRate = gbpRate;
     }
 
-
+    public void setCurrencyRates(FullRatesDto fullRatesDto) {
+        RatesDto ratesDto = fullRatesDto.getRates();
+        this.hufRate = new BigDecimal(ratesDto.getHUF());
+        this.czkRate = new BigDecimal(ratesDto.getCZK());
+        this.ronRate = new BigDecimal(ratesDto.getRON());
+        this.sekRate = new BigDecimal(ratesDto.getSEK());
+        this.rubRate = new BigDecimal(ratesDto.getRUB());
+        this.chfRate = new BigDecimal(ratesDto.getCHF());
+        this.eurRate = new BigDecimal(ratesDto.getEUR());
+        this.bgnRate = new BigDecimal(ratesDto.getBGN());
+        this.nokRate = new BigDecimal(ratesDto.getNOK());
+        this.usdRate = new BigDecimal(ratesDto.getUSD());
+        this.gbpRate = new BigDecimal(ratesDto.getGBP());
+    }
 
     public String getDate() {
         return date;
