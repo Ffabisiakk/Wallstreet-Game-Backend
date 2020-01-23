@@ -1,7 +1,5 @@
 package pl.hollow.wallstreet.rate.dto;
 
-import java.time.LocalDate;
-
 public class RateDto {
 
     private String date;

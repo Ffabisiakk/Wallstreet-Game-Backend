@@ -13,7 +13,6 @@ import pl.hollow.wallstreet.util.StringUtil;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,7 +32,7 @@ class RateService {
         this.bitcoinClient = bitcoinClient;
     }
 
-    public void generateRecentRates() {
+    public void generateRecentRate() {
         Rate rate = new Rate();
         FullRatesDto fullRatesDto = ratesClient.getCurrencyRates("PLN");
         String bitcoinsAmountForBillionPln = bitcoinClient.getBitcoinCurrencyRate("PLN", "1000000000");
@@ -61,12 +60,14 @@ class RateService {
         List<Rate> rateList = rateRepository.findAll();
         List<String> dateList = rateList.stream()
                 .map(Rate::getDate)
-                .sorted(Collections.reverseOrder())
+                .sorted()
                 .collect(Collectors.toList());
         if (dateList.size() != 0) {
             String mostRecentDate = dateList.get(0);
             LOGGER.info("Fetching most recent rate {}", mostRecentDate);
-            return rateRepository.findById(mostRecentDate).get();
+            return rateList.stream()
+                    .filter(rate -> !rate.getDate().equals(mostRecentDate))
+                    .collect(Collectors.toList()).get(0);
         } else {
             throw new EntityNotFoundException("Can't fetch any rates.");
         }

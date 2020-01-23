@@ -16,7 +16,7 @@ public class RateScheduler {
 
     @Scheduled(cron = "0 0 * ? * *")
     private void updateRates() {
-        rateService.generateRecentRates();
+        rateService.generateRecentRate();
     }
 
 }
