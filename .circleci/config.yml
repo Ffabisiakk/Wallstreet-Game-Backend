@@ -32,6 +32,8 @@ jobs:
             - v1-dependencies-
 
       - run: gradle dependencies
+      - run:
+        command: echo ${MONGO_WALLSTREET_PASSWORD}
 
       - save_cache:
           paths:
