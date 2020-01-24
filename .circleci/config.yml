@@ -20,9 +20,12 @@ jobs:
 
       - run: gradle dependencies
 
+      - run:
+          command: echo $MONGO_WALLSTREET_PASSWORD
+
       - save_cache:
           paths:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle" }}
 
-      - run: gradle build --stacktrace
+      - run: gradle build
