@@ -3,6 +3,7 @@ jobs:
   build:
     docker:
       - image: circleci/openjdk:11.0.6-jdk-stretch
+      - image: circleci/mongo:4.2.2
 
     working_directory: ~/repo
 
@@ -20,12 +21,9 @@ jobs:
 
       - run: gradle dependencies
 
-      - run:
-          command: echo $MONGO_WALLSTREET_PASSWORD
-
       - save_cache:
           paths:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle" }}
 
-      - run: gradle build --debug
+      - run: gradle build
