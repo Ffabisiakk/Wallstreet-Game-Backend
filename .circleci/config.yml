@@ -8,8 +8,7 @@ jobs:
     docker:
       # specify the version you desire here
       - image: circleci/openjdk:11.0.6-jdk-stretch
-        environment:
-          MONGO_WALLSTREET_PASSWORD: $MONGO_WALLSTREET_PASSWORD
+
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/2.0/circleci-images/
@@ -21,6 +20,7 @@ jobs:
       # Customize the JVM maximum heap limit
       JVM_OPTS: -Xmx3200m
       TERM: dumb
+      MONGO_WALLSTREET_PASSWORD: $MONGO_WALLSTREET_PASSWORD
 
     steps:
       - checkout
