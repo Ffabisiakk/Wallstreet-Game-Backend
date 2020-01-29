@@ -1,9 +1,18 @@
 package pl.hollow.wallstreet.client.externalrates.dto;
 
-public class FullRatesDto {
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.io.Serializable;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class FullRatesDto implements Serializable {
+
+    @JsonProperty(value = "rates")
     private RatesDto rates;
+    @JsonProperty(value = "base")
     private String base;
+    @JsonProperty(value = "data")
     private String date;
 
     public FullRatesDto() {
