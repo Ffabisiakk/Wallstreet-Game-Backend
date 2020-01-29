@@ -36,7 +36,7 @@ class RateService {
         Rate rate = new Rate();
         FullRatesDto fullRatesDto = ratesClient.getCurrencyRates("PLN");
         String bitcoinsAmountForBillionPln = bitcoinClient.getBitcoinCurrencyRate("PLN", "1000000000");
-        BigDecimal bitcoinRate = new BigDecimal("1000000000").divide(new BigDecimal(bitcoinsAmountForBillionPln), RoundingMode.UP);
+        BigDecimal bitcoinRate = new BigDecimal("1000000000.0").divide(new BigDecimal(bitcoinsAmountForBillionPln), RoundingMode.UP);
         String date = StringUtil.getDate(LocalDateTime.now());
         rate.setDate(date);
         rate.setBitcoinRate(bitcoinRate);
