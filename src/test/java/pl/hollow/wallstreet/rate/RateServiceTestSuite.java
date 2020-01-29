@@ -34,7 +34,7 @@ class RateServiceTestSuite {
     @Test
     public void shouldGenerateRecentRate() {
 //        Given
-        RatesDto ratesDto = new RatesDto("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11");
+        RatesDto ratesDto = new RatesDto(1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ,11);
         FullRatesDto fullRatesDto = new FullRatesDto(ratesDto, "PLN", "1970010100");
         when(ratesClient.getCurrencyRates("PLN")).thenReturn(fullRatesDto);
 

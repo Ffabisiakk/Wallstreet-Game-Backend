@@ -1,23 +1,40 @@
 package pl.hollow.wallstreet.client.externalrates.dto;
 
-public class RatesDto {
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-    private String HUF;
-    private String CZK;
-    private String RON;
-    private String SEK;
-    private String RUB;
-    private String CHF;
-    private String EUR;
-    private String BGN;
-    private String NOK;
-    private String USD;
-    private String GBP;
+import java.io.Serializable;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class RatesDto implements Serializable {
+
+    @JsonProperty(value = "HUF")
+    private double HUF;
+    @JsonProperty(value = "CZK")
+    private double CZK;
+    @JsonProperty(value = "RON")
+    private double RON;
+    @JsonProperty(value = "SEK")
+    private double SEK;
+    @JsonProperty(value = "RUB")
+    private double RUB;
+    @JsonProperty(value = "CHF")
+    private double CHF;
+    @JsonProperty(value = "EUR")
+    private double EUR;
+    @JsonProperty(value = "BGN")
+    private double BGN;
+    @JsonProperty(value = "NOK")
+    private double NOK;
+    @JsonProperty(value = "USD")
+    private double USD;
+    @JsonProperty(value = "GBP")
+    private double GBP;
 
     public RatesDto() {
     }
 
-    public RatesDto(String HUF, String CZK, String RON, String SEK, String RUB, String CHF, String EUR, String BGN, String NOK, String USD, String GBP) {
+    public RatesDto(double HUF, double CZK, double RON, double SEK, double RUB, double CHF, double EUR, double BGN, double NOK, double USD, double GBP) {
         this.HUF = HUF;
         this.CZK = CZK;
         this.RON = RON;
@@ -31,48 +48,92 @@ public class RatesDto {
         this.GBP = GBP;
     }
 
-    public String getHUF() {
+    public double getHUF() {
         return HUF;
     }
 
-    public String getCZK() {
+    public void setHUF(double HUF) {
+        this.HUF = HUF;
+    }
+
+    public double getCZK() {
         return CZK;
     }
 
-    public String getRON() {
+    public void setCZK(double CZK) {
+        this.CZK = CZK;
+    }
+
+    public double getRON() {
         return RON;
     }
 
-    public String getSEK() {
+    public void setRON(double RON) {
+        this.RON = RON;
+    }
+
+    public double getSEK() {
         return SEK;
     }
 
-    public String getRUB() {
+    public void setSEK(double SEK) {
+        this.SEK = SEK;
+    }
+
+    public double getRUB() {
         return RUB;
     }
 
-    public String getCHF() {
+    public void setRUB(double RUB) {
+        this.RUB = RUB;
+    }
+
+    public double getCHF() {
         return CHF;
     }
 
-    public String getEUR() {
+    public void setCHF(double CHF) {
+        this.CHF = CHF;
+    }
+
+    public double getEUR() {
         return EUR;
     }
 
-    public String getBGN() {
+    public void setEUR(double EUR) {
+        this.EUR = EUR;
+    }
+
+    public double getBGN() {
         return BGN;
     }
 
-    public String getNOK() {
+    public void setBGN(double BGN) {
+        this.BGN = BGN;
+    }
+
+    public double getNOK() {
         return NOK;
     }
 
-    public String getUSD() {
+    public void setNOK(double NOK) {
+        this.NOK = NOK;
+    }
+
+    public double getUSD() {
         return USD;
     }
 
-    public String getGBP() {
+    public void setUSD(double USD) {
+        this.USD = USD;
+    }
+
+    public double getGBP() {
         return GBP;
+    }
+
+    public void setGBP(double GBP) {
+        this.GBP = GBP;
     }
 }
 
