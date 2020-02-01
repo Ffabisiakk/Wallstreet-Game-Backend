@@ -8,15 +8,16 @@ import org.springframework.stereotype.Component;
 public class RateScheduler {
 
     private RateService rateService;
+    private RateProvider rateProvider;
 
     @Autowired
-    public RateScheduler(RateService rateService) {
+    public RateScheduler(RateService rateService, RateProvider rateProvider) {
         this.rateService = rateService;
+        this.rateProvider = rateProvider;
     }
 
     @Scheduled(cron = "0 0 * ? * *")
     private void updateRates() {
-        rateService.generateRecentRate();
+        rateService.createRate(rateProvider.generateRecentRate());
     }
-
 }
