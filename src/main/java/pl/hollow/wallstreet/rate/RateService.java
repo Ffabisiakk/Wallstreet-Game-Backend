@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import pl.hollow.wallstreet.exception.EntityNotFoundException;
 import pl.hollow.wallstreet.util.StringUtil;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,13 +38,13 @@ class RateService {
         List<Rate> rateList = rateRepository.findAll();
         List<String> dateList = rateList.stream()
                 .map(Rate::getDate)
-                .sorted()
+                .sorted(Comparator.reverseOrder())
                 .collect(Collectors.toList());
         if (dateList.size() != 0) {
             String mostRecentDate = dateList.get(0);
             LOGGER.info("Fetching most recent rate {}", mostRecentDate);
             return rateList.stream()
-                    .filter(rate -> !rate.getDate().equals(mostRecentDate))
+                    .filter(rate -> rate.getDate().equals(mostRecentDate))
                     .collect(Collectors.toList()).get(0);
         } else {
             throw new EntityNotFoundException("Can't fetch any rates.");

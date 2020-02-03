@@ -1,13 +1,18 @@
 package pl.hollow.wallstreet.client.externalrates;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import pl.hollow.wallstreet.client.externalrates.dto.FullRatesDto;
 import pl.hollow.wallstreet.util.StringUtil;
 
 @Component
 public class ExternalRatesClient {
+
+    public static final Logger LOGGER = LoggerFactory.getLogger(ExternalRatesClient.class);
 
     private RestTemplate restTemplate;
 
@@ -18,6 +23,11 @@ public class ExternalRatesClient {
 
     public FullRatesDto getCurrencyRates(String base) {
         String uri = StringUtil.format("https://api.exchangeratesapi.io/latest?base={}", base);
-        return restTemplate.getForObject(uri, FullRatesDto.class);
+        try {
+            return restTemplate.getForObject(uri, FullRatesDto.class);
+        } catch (RestClientException ex) {
+            LOGGER.warn("Could't fetch currency rates.");
+            return new FullRatesDto();
+        }
     }
 }

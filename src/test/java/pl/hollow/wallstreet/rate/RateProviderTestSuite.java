@@ -8,6 +8,7 @@ import pl.hollow.wallstreet.client.blockchaninfo.BlockchainInfoClient;
 import pl.hollow.wallstreet.client.externalrates.ExternalRatesClient;
 import pl.hollow.wallstreet.client.externalrates.dto.FullRatesDto;
 import pl.hollow.wallstreet.client.externalrates.dto.RatesDto;
+import pl.hollow.wallstreet.exception.InvalidRatesException;
 import pl.hollow.wallstreet.util.StringUtil;
 
 import java.math.BigDecimal;
@@ -28,13 +29,13 @@ class RateProviderTestSuite {
     private BlockchainInfoClient bitcoinClient;
 
     @Test
-    public void shouldGenerateRecentRate() {
+    public void shouldGenerateRecentRate() throws InvalidRatesException {
 //        Given
         RatesDto ratesDto = new RatesDto(1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5, 10.5 ,11.5);
         FullRatesDto fullRatesDto = new FullRatesDto(ratesDto, "PLN", "1970010100");
 
         when(ratesClient.getCurrencyRates("PLN")).thenReturn(fullRatesDto);
-        when(bitcoinClient.getBitcoinCurrencyRate("PLN", "1000000000")).thenReturn("1000");
+        when(bitcoinClient.getBitcoinCurrencyRate("PLN", "1000000000")).thenReturn(1000.0);
 
 //        When
         Rate rate = rateProvider.generateRecentRate();
