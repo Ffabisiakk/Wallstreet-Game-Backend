@@ -7,6 +7,7 @@ import pl.hollow.wallstreet.rate.dto.RateDto;
 import java.util.List;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/rates")
 public class RateController {
 

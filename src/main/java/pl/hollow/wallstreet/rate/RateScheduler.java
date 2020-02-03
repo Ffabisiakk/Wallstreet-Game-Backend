@@ -31,12 +31,6 @@ public class RateScheduler {
         rateCache = rateService.getRecentRate();
     }
 
-    //    prevent heroku to fall asleep
-    @Scheduled(fixedDelay = 1000 * 60 * 10)
-    public void wakeup() {
-        System.out.println("WAKE UP");
-    }
-
     @Scheduled(cron = "0 0 * ? * *")
     public void updateRates() {
         try {
