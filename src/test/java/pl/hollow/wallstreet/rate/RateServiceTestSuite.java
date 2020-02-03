@@ -26,13 +26,13 @@ class RateServiceTestSuite {
 //        Given
         List<Rate> rateList = new ArrayList<>();
         Rate rate = new Rate();
-        rate.setDate("2020010112");
+        rate.setDate("3000010112");
         rateList.add(rate);
         Rate rate2 = new Rate();
-        rate2.setDate("2020010114");
+        rate2.setDate("3000010114");
         rateList.add(rate2);
         Rate rate3 = new Rate();
-        rate3.setDate("2020010113");
+        rate3.setDate("3000010113");
         rateList.add(rate3);
         when(rateRepository.findAll()).thenReturn(rateList);
 
