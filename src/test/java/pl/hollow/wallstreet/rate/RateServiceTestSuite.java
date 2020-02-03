@@ -41,6 +41,6 @@ class RateServiceTestSuite {
 
 //        Then
         assertNotNull(fetchRate);
-        assertEquals("2020010114", fetchRate.getDate());
+        assertEquals("3000010114", fetchRate.getDate());
     }
 }

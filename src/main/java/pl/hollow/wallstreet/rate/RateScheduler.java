@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 import pl.hollow.wallstreet.exception.InvalidRatesException;
 import pl.hollow.wallstreet.util.StringUtil;
 
-import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 
 @Component
@@ -26,7 +25,8 @@ public class RateScheduler {
         this.rateCache = rateCache;
     }
 
-    @PostConstruct
+//    init after 30s due to RateServiceTestSuite collision with @PostConstruct
+    @Scheduled(fixedDelay = 30000)
     public void initRateCache() {
         rateCache = rateService.getRecentRate();
     }
