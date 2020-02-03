@@ -26,7 +26,7 @@ public class RateScheduler {
     }
 
 //    init after 30s due to RateServiceTestSuite collision with @PostConstruct
-    @Scheduled(fixedDelay = 30000)
+    @Scheduled(initialDelay = 1000 * 30, fixedDelay = Long.MAX_VALUE)
     public void initRateCache() {
         rateCache = rateService.getRecentRate();
     }
