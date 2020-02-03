@@ -7,6 +7,7 @@ import pl.hollow.wallstreet.user.dto.UserDto;
 import java.util.List;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/users")
 class UserController {
 
