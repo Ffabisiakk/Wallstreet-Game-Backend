@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import pl.hollow.wallstreet.client.blockchaninfo.BlockchainInfoClient;
 import pl.hollow.wallstreet.client.externalrates.ExternalRatesClient;
 import pl.hollow.wallstreet.client.externalrates.dto.FullRatesDto;
+import pl.hollow.wallstreet.exception.InvalidRatesException;
 import pl.hollow.wallstreet.util.StringUtil;
 
 import java.math.BigDecimal;
@@ -27,16 +28,33 @@ class RateProvider {
         this.bitcoinClient = bitcoinClient;
     }
 
-    public Rate generateRecentRate() {
-        Rate rate = new Rate();
-        FullRatesDto fullRatesDto = ratesClient.getCurrencyRates("PLN");
-        String bitcoinsAmountForBillionPln = bitcoinClient.getBitcoinCurrencyRate("PLN", "1000000000");
-        BigDecimal bitcoinRate = new BigDecimal("1000000000").divide(new BigDecimal(bitcoinsAmountForBillionPln), RoundingMode.UP);
+    public Rate generateRecentRate() throws InvalidRatesException {
         String date = StringUtil.getDate(LocalDateTime.now());
+        BigDecimal bitcoinRate = getBitcoinRate();
+        FullRatesDto fullRatesDto = getCurrencyRates();
+
+        Rate rate = new Rate();
         rate.setDate(date);
         rate.setBitcoinRate(bitcoinRate);
         rate.setCurrencyRates(fullRatesDto);
+
         LOGGER.info("Generating most recent rate {}", date);
         return rate;
+    }
+
+    private FullRatesDto getCurrencyRates() throws InvalidRatesException {
+        FullRatesDto fullRatesDto = ratesClient.getCurrencyRates("PLN");
+        if (fullRatesDto.getRates() == null) {
+            throw new InvalidRatesException("Failed to get currency rates.");
+        }
+        return fullRatesDto;
+    }
+
+    private BigDecimal getBitcoinRate() throws InvalidRatesException {
+        Double bitcoinsAmountForBillionPln = bitcoinClient.getBitcoinCurrencyRate("PLN", "1000000000");
+        if (bitcoinsAmountForBillionPln == -1) {
+            throw new InvalidRatesException("Failed to get bitcoin rate.");
+        }
+        return new BigDecimal("1000000000").divide(new BigDecimal(bitcoinsAmountForBillionPln), RoundingMode.UP);
     }
 }

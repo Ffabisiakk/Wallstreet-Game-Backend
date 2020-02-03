@@ -43,7 +43,7 @@ class RateService {
             String mostRecentDate = dateList.get(0);
             LOGGER.info("Fetching most recent rate {}", mostRecentDate);
             return rateList.stream()
-                    .filter(rate -> !rate.getDate().equals(mostRecentDate))
+                    .filter(rate -> rate.getDate().equals(mostRecentDate))
                     .collect(Collectors.toList()).get(0);
         } else {
             throw new EntityNotFoundException("Can't fetch any rates.");
