@@ -57,14 +57,14 @@ class RateControllerTestSuite {
         mockMvc.perform(get("/rates").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(200))
                 .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$[0].date", is("2020010112")))
-                .andExpect(jsonPath("$[0].purchaseRates[0].name", is("bitcoinPurchaseRate")))
+                .andExpect(jsonPath("$[0].date", is("2020-01-01 12:00")))
+                .andExpect(jsonPath("$[0].purchaseRates[0].name", is("BTC")))
                 .andExpect(jsonPath("$[0].purchaseRates[0].amount", is(0.001)))
-                .andExpect(jsonPath("$[0].purchaseRates[7].name", is("eurPurchaseRate")))
+                .andExpect(jsonPath("$[0].purchaseRates[7].name", is("EUR")))
                 .andExpect(jsonPath("$[0].purchaseRates[7].amount", is(4)))
-                .andExpect(jsonPath("$[0].saleRates[0].name", is("bitcoinSaleRate")))
+                .andExpect(jsonPath("$[0].saleRates[0].name", is("BTC")))
                 .andExpect(jsonPath("$[0].saleRates[0].amount", is(1000.0)))
-                .andExpect(jsonPath("$[0].saleRates[7].name", is("eurSaleRate")))
+                .andExpect(jsonPath("$[0].saleRates[7].name", is("EUR")))
                 .andExpect(jsonPath("$[0].saleRates[7].amount", is(0.25)));
     }
 
@@ -78,16 +78,16 @@ class RateControllerTestSuite {
         when(rateFacade.getRate(anyString())).thenReturn(rate);
 
 //        When & Then
-        mockMvc.perform(get("/rates/anyString").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/rates/2020-01-01 12:00").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(200))
-                .andExpect(jsonPath("$.date", is("2020010112")))
-                .andExpect(jsonPath("$.purchaseRates[0].name", is("bitcoinPurchaseRate")))
+                .andExpect(jsonPath("$.date", is("2020-01-01 12:00")))
+                .andExpect(jsonPath("$.purchaseRates[0].name", is("BTC")))
                 .andExpect(jsonPath("$.purchaseRates[0].amount", is(0.001)))
-                .andExpect(jsonPath("$.purchaseRates[7].name", is("eurPurchaseRate")))
+                .andExpect(jsonPath("$.purchaseRates[7].name", is("EUR")))
                 .andExpect(jsonPath("$.purchaseRates[7].amount", is(4)))
-                .andExpect(jsonPath("$.saleRates[0].name", is("bitcoinSaleRate")))
+                .andExpect(jsonPath("$.saleRates[0].name", is("BTC")))
                 .andExpect(jsonPath("$.saleRates[0].amount", is(1000.0)))
-                .andExpect(jsonPath("$.saleRates[7].name", is("eurSaleRate")))
+                .andExpect(jsonPath("$.saleRates[7].name", is("EUR")))
                 .andExpect(jsonPath("$.saleRates[7].amount", is(0.25)));
     }
 

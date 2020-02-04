@@ -26,7 +26,7 @@ abstract class RateMapper {
 
     private List<SingleRateDto> rateToRatePurchaseDto(Rate rate) {
         List<SingleRateDto> ratePurchaseDtos = new ArrayList<>();
-        ratePurchaseDtos.add(new SingleRateDto("BITCOIN", rate.getBitcoinRate()));
+        ratePurchaseDtos.add(new SingleRateDto("BTC", rate.getBitcoinRate()));
         ratePurchaseDtos.add(new SingleRateDto("HUF", rate.getHufRate()));
         ratePurchaseDtos.add(new SingleRateDto("CZK", rate.getCzkRate()));
         ratePurchaseDtos.add(new SingleRateDto("RON", rate.getRonRate()));
@@ -43,7 +43,7 @@ abstract class RateMapper {
 
     private List<SingleRateDto> rateToRateSaleDto(Rate rate) {
         List<SingleRateDto> rateSaleDtos = new ArrayList<>();
-        rateSaleDtos.add(new SingleRateDto("BITCOIN", invert(rate.getBitcoinRate())));
+        rateSaleDtos.add(new SingleRateDto("BTC", invert(rate.getBitcoinRate())));
         rateSaleDtos.add(new SingleRateDto("HUF", invert(rate.getHufRate())));
         rateSaleDtos.add(new SingleRateDto("CZK", invert(rate.getCzkRate())));
         rateSaleDtos.add(new SingleRateDto("RON", invert(rate.getRonRate())));
@@ -62,6 +62,6 @@ abstract class RateMapper {
         if (rateInDecimal == null) {
             return null;
         }
-        return new BigDecimal("1").setScale(9).divide(rateInDecimal, RoundingMode.UP);
+        return BigDecimal.ONE.setScale(9, RoundingMode.UP).divide(rateInDecimal, RoundingMode.UP);
     }
 }
