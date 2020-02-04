@@ -30,18 +30,18 @@ public class RateController {
         return rateMapper.rateToRateDto(rateFacade.getRate(date));
     }
 
-    @PostMapping("")
-    public void createRate(@RequestBody RateDto rateDto) {
-        rateFacade.createRate(rateMapper.rateDtoToRate(rateDto));
-    }
-
-    @PutMapping("")
-    public RateDto updateRate(@RequestBody RateDto rateDto) {
-        return rateMapper.rateToRateDto(rateFacade.updateRate(rateMapper.rateDtoToRate(rateDto)));
-    }
-
-    @DeleteMapping("/{date}")
-    public void deleteRate(@PathVariable String date) {
-        rateFacade.deleteRate(date);
-    }
+//    @PostMapping("")
+//    public void createRate(@RequestBody RateDto rateDto) {
+//        rateFacade.createRate(rateMapper.rateDtoToRate(rateDto));
+//    }
+//
+//    @PutMapping("")
+//    public RateDto updateRate(@RequestBody RateDto rateDto) {
+//        return rateMapper.rateToRateDto(rateFacade.updateRate(rateMapper.rateDtoToRate(rateDto)));
+//    }
+//
+//    @DeleteMapping("/{date}")
+//    public void deleteRate(@PathVariable String date) {
+//        rateFacade.deleteRate(date);
+//    }
 }
