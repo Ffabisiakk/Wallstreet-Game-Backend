@@ -42,7 +42,7 @@ class RateProviderTestSuite {
 
 //        Then
         assertEquals(StringUtil.getDate(LocalDateTime.now()), rate.getDate());
-        assertEquals(new BigDecimal("1000000.000000000"), rate.getBitcoinRate());
+        assertEquals(new BigDecimal("0.000001000"), rate.getBitcoinRate());
         assertEquals(new BigDecimal("7.5"), rate.getEurRate());
     }
 }
