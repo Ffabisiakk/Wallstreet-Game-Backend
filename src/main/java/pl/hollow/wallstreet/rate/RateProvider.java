@@ -55,6 +55,6 @@ class RateProvider {
         if (bitcoinsAmountForBillionPln == -1) {
             throw new InvalidRatesException("Failed to get bitcoin rate.");
         }
-        return new BigDecimal(bitcoinsAmountForBillionPln).setScale(9).divide(new BigDecimal("1000000000"), RoundingMode.UP);
+        return new BigDecimal(bitcoinsAmountForBillionPln).setScale(50,RoundingMode.UP).divide(new BigDecimal("1000000000"), RoundingMode.UP);
     }
 }

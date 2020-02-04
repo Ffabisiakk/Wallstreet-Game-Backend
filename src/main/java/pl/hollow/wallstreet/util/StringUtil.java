@@ -2,9 +2,7 @@ package pl.hollow.wallstreet.util;
 
 import org.slf4j.helpers.MessageFormatter;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 public class StringUtil {
@@ -25,10 +23,14 @@ public class StringUtil {
         return formatter.format(localDateTime);
     }
 
-    public static String formatDate(String date) {
-        LocalDateTime localDateTime = getDate(date);
+    public static String formatToDate(String dateId) {
+        LocalDateTime localDateTime = getDate(dateId);
         String pattern = "yyyy-MM-dd HH:mm";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
         return formatter.format(localDateTime);
+    }
+
+    public static String formatToDateId(String date) {
+        return date.substring(0, 13).replace("-", "").replace(" ", "");
     }
 }
