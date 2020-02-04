@@ -12,6 +12,7 @@ import pl.hollow.wallstreet.exception.InvalidRatesException;
 import pl.hollow.wallstreet.util.StringUtil;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -42,7 +43,7 @@ class RateProviderTestSuite {
 
 //        Then
         assertEquals(StringUtil.getDate(LocalDateTime.now()), rate.getDate());
-        assertEquals(new BigDecimal("0.000001000"), rate.getBitcoinRate());
+        assertEquals(new BigDecimal("0.000001").setScale(50, RoundingMode.UP), rate.getBitcoinRate());
         assertEquals(new BigDecimal("7.5"), rate.getEurRate());
     }
 }

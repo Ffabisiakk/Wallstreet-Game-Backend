@@ -3,6 +3,7 @@ package pl.hollow.wallstreet.rate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pl.hollow.wallstreet.rate.dto.RateDto;
+import pl.hollow.wallstreet.util.StringUtil;
 
 import java.util.List;
 
@@ -27,7 +28,8 @@ public class RateController {
 
     @GetMapping("/{date}")
     public RateDto getRate(@PathVariable String date) {
-        return rateMapper.rateToRateDto(rateFacade.getRate(date));
+        String dateId = StringUtil.formatToDateId(date);
+        return rateMapper.rateToRateDto(rateFacade.getRate(dateId));
     }
 
 //    @PostMapping("")
