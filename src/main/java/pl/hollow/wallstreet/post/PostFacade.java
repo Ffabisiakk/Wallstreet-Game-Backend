@@ -1,6 +1,8 @@
 package pl.hollow.wallstreet.post;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import pl.hollow.wallstreet.exception.EntityNotFoundException;
 
@@ -18,6 +20,10 @@ public class PostFacade {
 
     public List<Post> getPosts() {
         return postService.getPosts();
+    }
+
+    public Page<Post> getPostsPage(Pageable pageable) {
+        return postService.getPostsPage(pageable);
     }
 
     public Post getPost(String id) throws EntityNotFoundException {
