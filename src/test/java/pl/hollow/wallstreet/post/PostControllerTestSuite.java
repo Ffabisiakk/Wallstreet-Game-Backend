@@ -36,8 +36,8 @@ class PostControllerTestSuite {
         when(postFacade.getPostsPage(any())).thenReturn(postPage);
 
 //        When & Then
-        mockMvc.perform(get("/posts").param("page", "0").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/posts").param("page", "1").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(200))
-                .andExpect(jsonPath("$", hasSize(0)));
+                .andExpect(jsonPath("$.content", hasSize(0)));
     }
 }
