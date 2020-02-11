@@ -111,10 +111,10 @@ class UserLeaderboardServiceTest {
         user.getWallet().put("BTC", BigDecimal.valueOf(1));
         users.add(user);
         User user2 = new User("test_nick2", "test_mail2");
-        user.getWallet().put("BTC", BigDecimal.valueOf(5));
+        user2.getWallet().put("BTC", BigDecimal.valueOf(5));
         users.add(user2);
         User user3 = new User("test_nick3", "test_mail3");
-        user.getWallet().put("BTC", BigDecimal.valueOf(3));
+        user3.getWallet().put("BTC", BigDecimal.valueOf(3));
         users.add(user3);
 
         Map<String, BigDecimal> rates = new HashMap<>();

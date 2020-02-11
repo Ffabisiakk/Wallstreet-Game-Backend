@@ -2,16 +2,19 @@ package pl.hollow.wallstreet.rate;
 
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+import java.util.Map;
+
 @Component
 public class RateCaches {
 
-    private Rate rateCache;
+    private Map<String, BigDecimal> rateCache;
 
-    public Rate getRateCache() {
+    public Map<String, BigDecimal> getRateCache() {
         return rateCache;
     }
 
-    public void setRateCache(Rate rateCache) {
+    public void setRateCache(Map<String, BigDecimal> rateCache) {
         this.rateCache = rateCache;
     }
 }

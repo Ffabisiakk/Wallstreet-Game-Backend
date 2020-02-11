@@ -33,6 +33,10 @@ class Rate {
         return rates;
     }
 
+    public void setRates(Map<String, BigDecimal> rates) {
+        this.rates = rates;
+    }
+
     public void setBitcoinRate(BigDecimal bitcoinRate) {
         rates.put("BTC", bitcoinRate);
     }
