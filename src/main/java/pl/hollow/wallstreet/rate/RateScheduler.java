@@ -25,7 +25,8 @@ public class RateScheduler {
     //    init after 30s due to RateServiceTestSuite collision with @PostConstruct
     @Scheduled(initialDelay = 1000 * 30, fixedDelay = Long.MAX_VALUE)
     public void initRateCache() {
-        rateCaches.setRateCache(rateService.getRecentRate());
+        Rate recentRate = rateService.getRecentRate();
+        rateCaches.setRateCache(recentRate.getRates());
     }
 
     @Scheduled(cron = "0 0 * ? * *")
@@ -34,11 +35,12 @@ public class RateScheduler {
         try {
             Rate rate = rateProvider.generateRecentRate();
             rateService.createRate(rate);
-            rateCaches.setRateCache(rate);
+            rateCaches.setRateCache(rate.getRates());
         } catch (InvalidRatesException e) {
-            Rate rateCache = rateCaches.getRateCache();
-            rateCache.setDate(StringUtil.getDate(LocalDateTime.now()));
-            rateService.createRate(rateCache);
+            Rate rate = new Rate();
+            rate.setRates(rateCaches.getRateCache());
+            rate.setDate(StringUtil.getDate(LocalDateTime.now()));
+            rateService.createRate(rate);
         }
     }
 }
