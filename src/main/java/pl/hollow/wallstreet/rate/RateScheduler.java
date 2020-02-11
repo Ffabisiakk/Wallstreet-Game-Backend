@@ -12,32 +12,31 @@ import java.time.LocalDateTime;
 public class RateScheduler {
 
     private RateService rateService;
+    private RateCaches rateCaches;
     private RateProvider rateProvider;
-    private Rate rateCache;
 
     @Autowired
-    public RateScheduler(RateService rateService, RateProvider rateProvider) {
+    public RateScheduler(RateService rateService, RateCaches rateCaches, RateProvider rateProvider) {
         this.rateService = rateService;
+        this.rateCaches = rateCaches;
         this.rateProvider = rateProvider;
     }
 
-    public void setRateCache(Rate rateCache) {
-        this.rateCache = rateCache;
-    }
-
-//    init after 30s due to RateServiceTestSuite collision with @PostConstruct
+    //    init after 30s due to RateServiceTestSuite collision with @PostConstruct
     @Scheduled(initialDelay = 1000 * 30, fixedDelay = Long.MAX_VALUE)
     public void initRateCache() {
-        rateCache = rateService.getRecentRate();
+        rateCaches.setRateCache(rateService.getRecentRate());
     }
 
     @Scheduled(cron = "0 0 * ? * *")
+//    @Scheduled(fixedDelay = 10 * 1000)
     public void updateRates() {
         try {
             Rate rate = rateProvider.generateRecentRate();
             rateService.createRate(rate);
-            setRateCache(rate);
+            rateCaches.setRateCache(rate);
         } catch (InvalidRatesException e) {
+            Rate rateCache = rateCaches.getRateCache();
             rateCache.setDate(StringUtil.getDate(LocalDateTime.now()));
             rateService.createRate(rateCache);
         }

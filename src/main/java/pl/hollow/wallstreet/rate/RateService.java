@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-class RateService {
+public class RateService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RateService.class);
 
@@ -56,13 +56,4 @@ class RateService {
         rateRepository.save(rate);
     }
 
-    public Rate updateRate(Rate rate) {
-        LOGGER.info("Updating rate {}", rate.getDate());
-        return rateRepository.save(rate);
-    }
-
-    public void deleteRate(String date) {
-        LOGGER.info("Deleting rate {}", date);
-        rateRepository.deleteById(date);
-    }
 }

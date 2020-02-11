@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.hollow.wallstreet.client.blockchaninfo.BlockchainInfoClient;
 import pl.hollow.wallstreet.client.externalrates.ExternalRatesClient;
-import pl.hollow.wallstreet.client.externalrates.dto.FullRatesDto;
+import pl.hollow.wallstreet.client.externalrates.dto.ExtFullRatesDto;
 import pl.hollow.wallstreet.exception.InvalidRatesException;
 import pl.hollow.wallstreet.util.StringUtil;
 
@@ -31,23 +31,23 @@ class RateProvider {
     public Rate generateRecentRate() throws InvalidRatesException {
         String date = StringUtil.getDate(LocalDateTime.now());
         BigDecimal bitcoinRate = getBitcoinRate();
-        FullRatesDto fullRatesDto = getCurrencyRates();
+        ExtFullRatesDto extFullRatesDto = getCurrencyRates();
 
         Rate rate = new Rate();
         rate.setDate(date);
         rate.setBitcoinRate(bitcoinRate);
-        rate.setCurrencyRates(fullRatesDto);
+        rate.setCurrencyRates(extFullRatesDto);
 
         LOGGER.info("Generating most recent rate {}", date);
         return rate;
     }
 
-    private FullRatesDto getCurrencyRates() throws InvalidRatesException {
-        FullRatesDto fullRatesDto = ratesClient.getCurrencyRates("PLN");
-        if (fullRatesDto.getRates() == null) {
+    private ExtFullRatesDto getCurrencyRates() throws InvalidRatesException {
+        ExtFullRatesDto extFullRatesDto = ratesClient.getCurrencyRates("PLN");
+        if (extFullRatesDto.getRates() == null) {
             throw new InvalidRatesException("Failed to get currency rates.");
         }
-        return fullRatesDto;
+        return extFullRatesDto;
     }
 
     private BigDecimal getBitcoinRate() throws InvalidRatesException {

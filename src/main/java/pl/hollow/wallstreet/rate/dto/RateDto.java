@@ -1,12 +1,14 @@
 package pl.hollow.wallstreet.rate.dto;
 
-import java.util.List;
+import java.math.BigDecimal;
+import java.util.Map;
 
 public class RateDto {
 
     private String date;
-    private List<SingleRateDto> purchaseRates;
-    private List<SingleRateDto> saleRates;
+
+    private Map<String, BigDecimal> purchaseRates;
+    private Map<String, BigDecimal> saleRates;
 
     public String getDate() {
         return date;
@@ -16,19 +18,19 @@ public class RateDto {
         this.date = date;
     }
 
-    public List<SingleRateDto> getPurchaseRates() {
+    public Map<String, BigDecimal> getPurchaseRates() {
         return purchaseRates;
     }
 
-    public void setPurchaseRates(List<SingleRateDto> purchaseRates) {
+    public void setPurchaseRates(Map<String, BigDecimal> purchaseRates) {
         this.purchaseRates = purchaseRates;
     }
 
-    public List<SingleRateDto> getSaleRates() {
+    public Map<String, BigDecimal> getSaleRates() {
         return saleRates;
     }
 
-    public void setSaleRates(List<SingleRateDto> saleRates) {
+    public void setSaleRates(Map<String, BigDecimal> saleRates) {
         this.saleRates = saleRates;
     }
 }
