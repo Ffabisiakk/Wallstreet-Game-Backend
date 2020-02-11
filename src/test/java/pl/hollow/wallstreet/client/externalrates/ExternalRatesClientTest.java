@@ -3,7 +3,7 @@ package pl.hollow.wallstreet.client.externalrates;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import pl.hollow.wallstreet.client.externalrates.dto.FullRatesDto;
+import pl.hollow.wallstreet.client.externalrates.dto.ExtFullRatesDto;
 
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -17,7 +17,7 @@ class ExternalRatesClientTest {
     @Test
     public void shouldFetchCurrencyRates() {
 //        When
-        FullRatesDto result = client.getCurrencyRates("PLN");
+        ExtFullRatesDto result = client.getCurrencyRates("PLN");
 
 //        Then
         assertNotNull(result);

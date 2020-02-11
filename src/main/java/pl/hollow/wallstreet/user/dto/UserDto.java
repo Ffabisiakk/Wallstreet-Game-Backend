@@ -1,13 +1,13 @@
 package pl.hollow.wallstreet.user.dto;
 
-import org.springframework.stereotype.Component;
+import java.math.BigDecimal;
+import java.util.Map;
 
 public class UserDto {
 
     private String nickname;
     private String email;
-    private String cash;
-    private String bitcoin;
+    private Map<String, BigDecimal> wallet;
 
     public String getNickname() {
         return nickname;
@@ -25,19 +25,11 @@ public class UserDto {
         this.email = email;
     }
 
-    public String getCash() {
-        return cash;
+    public Map<String, BigDecimal> getWallet() {
+        return wallet;
     }
 
-    public void setCash(String cash) {
-        this.cash = cash;
-    }
-
-    public String getBitcoin() {
-        return bitcoin;
-    }
-
-    public void setBitcoin(String bitcoin) {
-        this.bitcoin = bitcoin;
+    public void setWallet(Map<String, BigDecimal> wallet) {
+        this.wallet = wallet;
     }
 }

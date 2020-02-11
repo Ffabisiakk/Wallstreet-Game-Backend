@@ -7,9 +7,9 @@ import pl.hollow.wallstreet.user.dto.UserDto;
 import java.util.List;
 
 @Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
-public interface UserMapper {
+interface UserMapper {
 
+    List<UserDto> usersToUserDtos(List<User> users);
     UserDto userToUserDto(User user);
     User userDtoToUser(UserDto userDto);
-    List<UserDto> usersToUserDtos(List<User> users);
 }

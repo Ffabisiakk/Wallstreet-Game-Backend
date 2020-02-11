@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class RatesDto implements Serializable {
+public class ExtRatesDto implements Serializable {
 
     @JsonProperty(value = "HUF")
     private double HUF;
@@ -31,10 +31,10 @@ public class RatesDto implements Serializable {
     @JsonProperty(value = "GBP")
     private double GBP;
 
-    public RatesDto() {
+    public ExtRatesDto() {
     }
 
-    public RatesDto(double HUF, double CZK, double RON, double SEK, double RUB, double CHF, double EUR, double BGN, double NOK, double USD, double GBP) {
+    public ExtRatesDto(double HUF, double CZK, double RON, double SEK, double RUB, double CHF, double EUR, double BGN, double NOK, double USD, double GBP) {
         this.HUF = HUF;
         this.CZK = CZK;
         this.RON = RON;

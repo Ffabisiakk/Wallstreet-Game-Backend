@@ -27,13 +27,13 @@ class PostControllerTestSuite {
     private MockMvc mockMvc;
 
     @MockBean
-    private PostFacade postFacade;
+    private PostService postService;
 
     @Test
     public void shouldFetchPage() throws Exception {
 //        Given
         Page<Post> postPage = new PageImpl<>(new ArrayList<>());
-        when(postFacade.getPostsPage(any())).thenReturn(postPage);
+        when(postService.getPostsPage(any())).thenReturn(postPage);
 
 //        When & Then
         mockMvc.perform(get("/posts").param("page", "1").contentType(MediaType.APPLICATION_JSON))

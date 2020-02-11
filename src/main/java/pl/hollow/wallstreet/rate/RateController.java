@@ -12,38 +12,24 @@ import java.util.List;
 @RequestMapping("/rates")
 public class RateController {
 
-    private RateFacade rateFacade;
+    private RateService rateService;
     private RateMapper rateMapper;
 
     @Autowired
-    public RateController(RateFacade rateFacade, RateMapper rateMapper) {
-        this.rateFacade = rateFacade;
+    public RateController(RateService rateService, RateMapper rateMapper) {
+        this.rateService = rateService;
         this.rateMapper = rateMapper;
     }
 
     @GetMapping("")
     public List<RateDto> getRates() {
-        return rateMapper.ratesToRateDtos(rateFacade.getRates());
+        return rateMapper.ratesToRateDtos(rateService.getRates());
     }
 
     @GetMapping("/{date}")
     public RateDto getRate(@PathVariable String date) {
         String dateId = StringUtil.formatToDateId(date);
-        return rateMapper.rateToRateDto(rateFacade.getRate(dateId));
+        return rateMapper.rateToRateDto(rateService.getRate(dateId));
     }
 
-//    @PostMapping("")
-//    public void createRate(@RequestBody RateDto rateDto) {
-//        rateFacade.createRate(rateMapper.rateDtoToRate(rateDto));
-//    }
-//
-//    @PutMapping("")
-//    public RateDto updateRate(@RequestBody RateDto rateDto) {
-//        return rateMapper.rateToRateDto(rateFacade.updateRate(rateMapper.rateDtoToRate(rateDto)));
-//    }
-//
-//    @DeleteMapping("/{date}")
-//    public void deleteRate(@PathVariable String date) {
-//        rateFacade.deleteRate(date);
-//    }
 }

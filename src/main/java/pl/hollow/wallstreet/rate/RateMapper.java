@@ -3,13 +3,13 @@ package pl.hollow.wallstreet.rate;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import pl.hollow.wallstreet.rate.dto.RateDto;
-import pl.hollow.wallstreet.rate.dto.SingleRateDto;
 import pl.hollow.wallstreet.util.StringUtil;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 abstract class RateMapper {
@@ -24,37 +24,13 @@ abstract class RateMapper {
         return rateDto;
     }
 
-    private List<SingleRateDto> rateToRatePurchaseDto(Rate rate) {
-        List<SingleRateDto> ratePurchaseDtos = new ArrayList<>();
-        ratePurchaseDtos.add(new SingleRateDto("BTC", rate.getBitcoinRate()));
-        ratePurchaseDtos.add(new SingleRateDto("HUF", rate.getHufRate()));
-        ratePurchaseDtos.add(new SingleRateDto("CZK", rate.getCzkRate()));
-        ratePurchaseDtos.add(new SingleRateDto("RON", rate.getRonRate()));
-        ratePurchaseDtos.add(new SingleRateDto("SEK", rate.getSekRate()));
-        ratePurchaseDtos.add(new SingleRateDto("RUB", rate.getRubRate()));
-        ratePurchaseDtos.add(new SingleRateDto("CHF", rate.getChfRate()));
-        ratePurchaseDtos.add(new SingleRateDto("EUR", rate.getEurRate()));
-        ratePurchaseDtos.add(new SingleRateDto("BGN", rate.getBgnRate()));
-        ratePurchaseDtos.add(new SingleRateDto("NOK", rate.getNokRate()));
-        ratePurchaseDtos.add(new SingleRateDto("USD", rate.getUsdRate()));
-        ratePurchaseDtos.add(new SingleRateDto("GBP", rate.getGbpRate()));
-        return ratePurchaseDtos;
+    private Map<String, BigDecimal> rateToRatePurchaseDto(Rate rate) {
+        return rate.getRates();
     }
 
-    private List<SingleRateDto> rateToRateSaleDto(Rate rate) {
-        List<SingleRateDto> rateSaleDtos = new ArrayList<>();
-        rateSaleDtos.add(new SingleRateDto("BTC", invert(rate.getBitcoinRate())));
-        rateSaleDtos.add(new SingleRateDto("HUF", invert(rate.getHufRate())));
-        rateSaleDtos.add(new SingleRateDto("CZK", invert(rate.getCzkRate())));
-        rateSaleDtos.add(new SingleRateDto("RON", invert(rate.getRonRate())));
-        rateSaleDtos.add(new SingleRateDto("SEK", invert(rate.getSekRate())));
-        rateSaleDtos.add(new SingleRateDto("RUB", invert(rate.getRubRate())));
-        rateSaleDtos.add(new SingleRateDto("CHF", invert(rate.getChfRate())));
-        rateSaleDtos.add(new SingleRateDto("EUR", invert(rate.getEurRate())));
-        rateSaleDtos.add(new SingleRateDto("BGN", invert(rate.getBgnRate())));
-        rateSaleDtos.add(new SingleRateDto("NOK", invert(rate.getNokRate())));
-        rateSaleDtos.add(new SingleRateDto("USD", invert(rate.getUsdRate())));
-        rateSaleDtos.add(new SingleRateDto("GBP", invert(rate.getGbpRate())));
+    private Map<String, BigDecimal> rateToRateSaleDto(Rate rate) {
+        Map<String, BigDecimal> rateSaleDtos = new LinkedHashMap<>();
+        rate.getRates().forEach((key, value) -> rateSaleDtos.put(key, invert(value)));
         return rateSaleDtos;
     }
 

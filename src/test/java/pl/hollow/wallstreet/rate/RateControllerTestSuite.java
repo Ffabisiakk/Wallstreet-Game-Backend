@@ -12,8 +12,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -28,13 +27,12 @@ class RateControllerTestSuite {
     private MockMvc mockMvc;
 
     @MockBean
-    private RateFacade rateFacade;
+    private RateService rateService;
 
     @Test
     public void shouldFetchEmptyRateList() throws Exception {
 //        Given
-        List<Rate> rateList = new ArrayList<>();
-        when(rateFacade.getRates()).thenReturn(rateList);
+        when(rateService.getRates()).thenReturn(new ArrayList<>());
 
 //        When & Then
         mockMvc.perform(get("/rates").contentType(MediaType.APPLICATION_JSON))
@@ -49,23 +47,21 @@ class RateControllerTestSuite {
         Rate rate = new Rate();
         rate.setDate("2020010112");
         rate.setBitcoinRate(new BigDecimal("0.001"));
-        rate.setEurRate(new BigDecimal("4"));
+        rate.getRates().put("EUR", new BigDecimal("4"));
         rateList.add(rate);
-        when(rateFacade.getRates()).thenReturn(rateList);
+        when(rateService.getRates()).thenReturn(rateList);
 
 //        When & Then
         mockMvc.perform(get("/rates").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(200))
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].date", is("2020-01-01 12:00")))
-                .andExpect(jsonPath("$[0].purchaseRates[0].name", is("BTC")))
-                .andExpect(jsonPath("$[0].purchaseRates[0].amount", is(0.001)))
-                .andExpect(jsonPath("$[0].purchaseRates[7].name", is("EUR")))
-                .andExpect(jsonPath("$[0].purchaseRates[7].amount", is(4)))
-                .andExpect(jsonPath("$[0].saleRates[0].name", is("BTC")))
-                .andExpect(jsonPath("$[0].saleRates[0].amount", is(1000.0)))
-                .andExpect(jsonPath("$[0].saleRates[7].name", is("EUR")))
-                .andExpect(jsonPath("$[0].saleRates[7].amount", is(0.25)));
+                .andExpect(jsonPath("$[0].purchaseRates", aMapWithSize(2)))
+                .andExpect(jsonPath("$[0].purchaseRates.BTC", is(0.001)))
+                .andExpect(jsonPath("$[0].purchaseRates.EUR", is(4)))
+                .andExpect(jsonPath("$[0].saleRates", aMapWithSize(2)))
+                .andExpect(jsonPath("$[0].saleRates.BTC", is(1000.0)))
+                .andExpect(jsonPath("$[0].saleRates.EUR", is(0.25)));
     }
 
     @Test
@@ -74,21 +70,19 @@ class RateControllerTestSuite {
         Rate rate = new Rate();
         rate.setDate("2020010112");
         rate.setBitcoinRate(new BigDecimal("0.001"));
-        rate.setEurRate(new BigDecimal("4"));
-        when(rateFacade.getRate(anyString())).thenReturn(rate);
+        rate.getRates().put("EUR", new BigDecimal("4"));
+        when(rateService.getRate(anyString())).thenReturn(rate);
 
 //        When & Then
         mockMvc.perform(get("/rates/2020-01-01 12:00").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(200))
                 .andExpect(jsonPath("$.date", is("2020-01-01 12:00")))
-                .andExpect(jsonPath("$.purchaseRates[0].name", is("BTC")))
-                .andExpect(jsonPath("$.purchaseRates[0].amount", is(0.001)))
-                .andExpect(jsonPath("$.purchaseRates[7].name", is("EUR")))
-                .andExpect(jsonPath("$.purchaseRates[7].amount", is(4)))
-                .andExpect(jsonPath("$.saleRates[0].name", is("BTC")))
-                .andExpect(jsonPath("$.saleRates[0].amount", is(1000.0)))
-                .andExpect(jsonPath("$.saleRates[7].name", is("EUR")))
-                .andExpect(jsonPath("$.saleRates[7].amount", is(0.25)));
+                .andExpect(jsonPath("$.purchaseRates", aMapWithSize(2)))
+                .andExpect(jsonPath("$.purchaseRates.BTC", is(0.001)))
+                .andExpect(jsonPath("$.purchaseRates.EUR", is(4)))
+                .andExpect(jsonPath("$.saleRates", aMapWithSize(2)))
+                .andExpect(jsonPath("$.saleRates.BTC", is(1000.0)))
+                .andExpect(jsonPath("$.saleRates.EUR", is(0.25)));
     }
 
 }

@@ -13,12 +13,12 @@ import pl.hollow.wallstreet.post.dto.PostDto;
 @RequestMapping("/posts")
 class PostController {
 
-    private PostFacade postFacade;
+    private PostService postService;
     private PostMapper postMapping;
 
     @Autowired
-    public PostController(PostFacade postFacade, PostMapper postMapping) {
-        this.postFacade = postFacade;
+    public PostController(PostService postService, PostMapper postMapping) {
+        this.postService = postService;
         this.postMapping = postMapping;
     }
 
@@ -28,8 +28,7 @@ class PostController {
         Pageable pageable = PageRequest.of(page, 5, Sort.by(
                 Sort.Order.desc("createdAt")
         ));
-        System.out.println(page);
-        return postMapping.postPageToPostDtoPage(postFacade.getPostsPage(pageable));
+        return postMapping.postPageToPostDtoPage(postService.getPostsPage(pageable));
     }
 
 }

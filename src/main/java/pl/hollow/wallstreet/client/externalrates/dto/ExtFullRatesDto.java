@@ -6,25 +6,25 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class FullRatesDto implements Serializable {
+public class ExtFullRatesDto implements Serializable {
 
     @JsonProperty(value = "rates")
-    private RatesDto rates;
+    private ExtRatesDto rates;
     @JsonProperty(value = "base")
     private String base;
     @JsonProperty(value = "data")
     private String date;
 
-    public FullRatesDto() {
+    public ExtFullRatesDto() {
     }
 
-    public FullRatesDto(RatesDto rates, String base, String date) {
+    public ExtFullRatesDto(ExtRatesDto rates, String base, String date) {
         this.rates = rates;
         this.base = base;
         this.date = date;
     }
 
-    public RatesDto getRates() {
+    public ExtRatesDto getRates() {
         return rates;
     }
 
