@@ -12,37 +12,37 @@ import java.util.List;
 class UserController {
 
     private UserMapper userMapper;
-    private UserFacade userFacade;
+    private UserService userService;
 
     @Autowired
-    public UserController(UserMapper userMapper, UserFacade userFacade) {
+    public UserController(UserMapper userMapper, UserService userService) {
         this.userMapper = userMapper;
-        this.userFacade = userFacade;
+        this.userService = userService;
     }
 
     @GetMapping
     public List<UserDto> getUsers() {
-        return userMapper.usersToUserDtos(userFacade.getUsers());
+        return userMapper.usersToUserDtos(userService.getUsers());
     }
 
     @GetMapping("/{username}")
     public UserDto getUser(@PathVariable String username) {
-        return userMapper.userToUserDto(userFacade.getUser(username));
+        return userMapper.userToUserDto(userService.getUser(username));
     }
 
     @PostMapping
     public void createUser(@RequestBody UserDto userDto) {
-        userFacade.createUser(userMapper.userDtoToUser(userDto));
+        userService.createUser(userMapper.userDtoToUser(userDto));
     }
 
     @PutMapping
     public UserDto updateUser(@RequestBody UserDto userDto) {
-        return userMapper.userToUserDto(userFacade.updateUser(userMapper.userDtoToUser(userDto)));
+        return userMapper.userToUserDto(userService.updateUser(userMapper.userDtoToUser(userDto)));
     }
 
     @DeleteMapping("/{username}")
     public void deleteUser(@PathVariable String username) {
-        userFacade.deleteUser(username);
+        userService.deleteUser(username);
     }
 
 }
