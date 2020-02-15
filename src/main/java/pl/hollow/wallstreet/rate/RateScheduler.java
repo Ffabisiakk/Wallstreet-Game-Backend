@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import pl.hollow.wallstreet.exception.InvalidRatesException;
+import pl.hollow.wallstreet.user.UserLeaderboardService;
 import pl.hollow.wallstreet.util.StringUtil;
 
 import java.time.LocalDateTime;
@@ -12,21 +13,14 @@ import java.time.LocalDateTime;
 public class RateScheduler {
 
     private RateService rateService;
-    private RateCaches rateCaches;
     private RateProvider rateProvider;
+    private UserLeaderboardService userLeaderboardService;
 
     @Autowired
-    public RateScheduler(RateService rateService, RateCaches rateCaches, RateProvider rateProvider) {
+    public RateScheduler(RateService rateService, RateProvider rateProvider, UserLeaderboardService userLeaderboardService) {
         this.rateService = rateService;
-        this.rateCaches = rateCaches;
         this.rateProvider = rateProvider;
-    }
-
-    //    init after 30s due to RateServiceTestSuite collision with @PostConstruct
-    @Scheduled(initialDelay = 1000 * 30, fixedDelay = Long.MAX_VALUE)
-    public void initRateCache() {
-        Rate recentRate = rateService.getRecentRate();
-        rateCaches.setRateCache(recentRate.getRates());
+        this.userLeaderboardService = userLeaderboardService;
     }
 
     @Scheduled(cron = "0 0 * ? * *")
@@ -35,10 +29,10 @@ public class RateScheduler {
         try {
             Rate rate = rateProvider.generateRecentRate();
             rateService.createRate(rate);
-            rateCaches.setRateCache(rate.getRates());
+            userLeaderboardService.setLeaderboard();
         } catch (InvalidRatesException e) {
             Rate rate = new Rate();
-            rate.setRates(rateCaches.getRateCache());
+            rate.setRates(rateService.getRecentRates());
             rate.setDate(StringUtil.getDate(LocalDateTime.now()));
             rateService.createRate(rate);
         }

@@ -4,6 +4,7 @@ import java.util.*;
 
 public class MapUtil {
 
+    @SuppressWarnings("unchecked")
     public static <K, V> Map<K, V> sortByValueAsc(Map<K, V> map) {
         List<Map.Entry<K, V>> list = new LinkedList<>(map.entrySet());
         list.sort((Comparator<Object>) (o1, o2) -> ((Comparable<V>) ((Map.Entry<K, V>) (o1)).getValue()).compareTo(((Map.Entry<K, V>) (o2)).getValue()));
@@ -14,6 +15,7 @@ public class MapUtil {
         return result;
     }
 
+    @SuppressWarnings("unchecked")
     public static <K, V> Map<K, V> sortByValueDesc(Map<K, V> map) {
         List<Map.Entry<K, V>> list = new LinkedList<>(map.entrySet());
         list.sort((Comparator<Object>) (o1, o2) -> ((Comparable<V>) ((Map.Entry<K, V>) (o2)).getValue()).compareTo(((Map.Entry<K, V>) (o1)).getValue()));
