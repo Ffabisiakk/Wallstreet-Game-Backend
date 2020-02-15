@@ -1,5 +1,7 @@
 package pl.hollow.wallstreet.user.dto;
 
+import pl.hollow.wallstreet.util.ApplicationUserRole;
+
 import java.math.BigDecimal;
 import java.util.Map;
 
@@ -8,7 +10,7 @@ public class UserDto {
     private String nickname;
     private String email;
     private char[] password;
-    private String role;
+    private ApplicationUserRole role;
     private boolean isEnabled;
     private Map<String, BigDecimal> wallet;
 
@@ -36,11 +38,11 @@ public class UserDto {
         this.password = password.toCharArray();
     }
 
-    public String getRole() {
+    public ApplicationUserRole getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(ApplicationUserRole role) {
         this.role = role;
     }
 

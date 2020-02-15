@@ -39,6 +39,12 @@ class UserController {
         return userLeaderboardService.getLeaderboard();
     }
 
+    @GetMapping("/login")
+    public boolean login(@RequestBody UserDto userDto) {
+        User user = userService.getUser(userDto.getNickname());
+        return userDto.getPassword().equals(user.getPassword());
+    }
+
     @PostMapping
     public void createUser(@RequestBody UserDto userDto) {
         userService.createUser(userMapper.userDtoToUser(userDto));
