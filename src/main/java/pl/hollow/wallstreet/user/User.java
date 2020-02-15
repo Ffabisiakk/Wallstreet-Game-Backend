@@ -2,12 +2,11 @@ package pl.hollow.wallstreet.user;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.security.core.GrantedAuthority;
+import pl.hollow.wallstreet.util.ApplicationUserRole;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 @Document(collection = "users")
 public class User {
@@ -16,7 +15,7 @@ public class User {
     private String nickname;
     private String email;
     private String password;
-    private Set<? extends GrantedAuthority> grantedAuthorities;
+    private ApplicationUserRole role;
     private boolean isEnabled;
     private Map<String, BigDecimal> wallet;
 
@@ -37,12 +36,12 @@ public class User {
         wallet.put("USD", BigDecimal.ZERO);
     }
 
-    public User(String nickname, String email, String password, Set<? extends GrantedAuthority> grantedAuthorities, boolean isEnabled) {
+    public User(String nickname, String email, String password, ApplicationUserRole role, boolean isEnabled) {
         super();
         this.nickname = nickname;
         this.email = email;
         this.password = password;
-        this.grantedAuthorities = grantedAuthorities;
+        this.role = role;
         this.isEnabled = isEnabled;
     }
 
@@ -86,12 +85,12 @@ public class User {
         this.password = password;
     }
 
-    public Set<? extends GrantedAuthority> getGrantedAuthorities() {
-        return grantedAuthorities;
+    public ApplicationUserRole getRole() {
+        return role;
     }
 
-    public void setGrantedAuthorities(Set<? extends GrantedAuthority> grantedAuthorities) {
-        this.grantedAuthorities = grantedAuthorities;
+    public void setRole(ApplicationUserRole role) {
+        this.role = role;
     }
 }
 

@@ -5,27 +5,14 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public enum ApplicationUserRole {
 
-    USER(new HashSet<>()), EDITOR(new HashSet<>()), ADMIN(new HashSet<>());
-
-    private Set<ApplicationUserPermission> permissions;
-
-    ApplicationUserRole(Set<ApplicationUserPermission> permissions) {
-        this.permissions = permissions;
-    }
-
-    public Set<ApplicationUserPermission> getPermissions() {
-        return permissions;
-    }
+    USER, EDITOR, ADMIN;
 
     public Set<SimpleGrantedAuthority> getGrantedAuthorities() {
-        Set<SimpleGrantedAuthority> permissions = getPermissions().stream()
-                .map(permission -> new SimpleGrantedAuthority(permission.getPermission()))
-                .collect(Collectors.toSet());
-        permissions.add(new SimpleGrantedAuthority("ROLE_" + this.name()));
-        return permissions;
+        Set<SimpleGrantedAuthority> authorities = new HashSet<>();
+        authorities.add(new SimpleGrantedAuthority("ROLE_" + this.name()));
+        return authorities;
     }
 }

@@ -16,7 +16,7 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return user.getGrantedAuthorities();
+        return user.getRole().getGrantedAuthorities();
     }
 
     @Override

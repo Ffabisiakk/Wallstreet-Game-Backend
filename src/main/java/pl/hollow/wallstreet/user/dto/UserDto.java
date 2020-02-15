@@ -7,7 +7,7 @@ public class UserDto {
 
     private String nickname;
     private String email;
-    private String password;
+    private char[] password;
     private String role;
     private boolean isEnabled;
     private Map<String, BigDecimal> wallet;
@@ -29,11 +29,11 @@ public class UserDto {
     }
 
     public String getPassword() {
-        return password;
+        return new String(password);
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = password.toCharArray();
     }
 
     public String getRole() {
