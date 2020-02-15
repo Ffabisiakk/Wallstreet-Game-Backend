@@ -8,11 +8,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Document(collection = "users")
-class User {
+public class User {
 
     @Id
     private String nickname;
     private String email;
+    private String password;
     private Map<String, BigDecimal> wallet;
 
     public User() {
@@ -32,10 +33,11 @@ class User {
         wallet.put("USD", BigDecimal.ZERO);
     }
 
-    public User(String nickname, String email) {
+    public User(String nickname, String email, String password) {
         this();
         this.nickname = nickname;
         this.email = email;
+        this.password = password;
     }
 
     public String getNickname() {
@@ -60,6 +62,14 @@ class User {
 
     public void setWallet(Map<String, BigDecimal> wallet) {
         this.wallet = wallet;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
 
