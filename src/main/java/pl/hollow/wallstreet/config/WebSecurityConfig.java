@@ -1,4 +1,4 @@
-package pl.hollow.wallstreet.config.security;
+package pl.hollow.wallstreet.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -10,44 +10,42 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import pl.hollow.wallstreet.authotization.JwtAuthenticationFilter;
+import pl.hollow.wallstreet.authotization.JwtTokenVerifierFilter;
 import pl.hollow.wallstreet.authotization.MongoUserDetailsService;
 
-import java.util.concurrent.TimeUnit;
+import javax.crypto.SecretKey;
+
+import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
+import static pl.hollow.wallstreet.util.ApplicationUserRole.ADMIN;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private MongoUserDetailsService mongoUserDetailsService;
+    private SecretKey secretKey;
 
     @Autowired
-    public WebSecurityConfig(MongoUserDetailsService mongoUserDetailsService) {
+    public WebSecurityConfig(MongoUserDetailsService mongoUserDetailsService, SecretKey secretKey) {
         this.mongoUserDetailsService = mongoUserDetailsService;
+        this.secretKey = secretKey;
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
+                .sessionManagement()
+                .sessionCreationPolicy(STATELESS)
+                .and()
+                .addFilter(new JwtAuthenticationFilter(authenticationManager(), secretKey))
+                .addFilterAfter(new JwtTokenVerifierFilter(secretKey), JwtAuthenticationFilter.class)
                 .authorizeRequests()
+                .antMatchers("/posts").hasRole(ADMIN.name())
                 .antMatchers("/**").permitAll()
                 .anyRequest()
-                .authenticated()
-                .and()
-                .formLogin()
-                .loginPage("/login")
-                .defaultSuccessUrl("/dashboard")
-                .and()
-                .rememberMe()
-                .tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(7))
-                .and()
-                .logout()
-                .logoutUrl("/logout")
-                .clearAuthentication(true)
-                .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID", "remember-me")
-                .logoutSuccessUrl("/login?logout");
-
+                .authenticated();
     }
 
     @Override
@@ -67,5 +65,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 }
