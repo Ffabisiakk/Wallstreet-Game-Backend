@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import pl.hollow.wallstreet.rate.RateCaches;
+import pl.hollow.wallstreet.rate.RateService;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -21,7 +21,7 @@ class UserLeaderboardServiceTest {
     @MockBean
     private UserService userService;
     @MockBean
-    private RateCaches rateCaches;
+    private RateService rateService;
 
     @Test
     public void shouldReturnLeaderboardWithInitialUserWallet() {
@@ -36,7 +36,7 @@ class UserLeaderboardServiceTest {
         }
 
         when(userService.getUsers()).thenReturn(users);
-        when(rateCaches.getRateCache()).thenReturn(rates);
+        when(rateService.getRecentRates()).thenReturn(rates);
 
 //        When
         Map<String, BigDecimal> result = service.generateLeaderboard();
@@ -45,7 +45,7 @@ class UserLeaderboardServiceTest {
 //        Then
         assertEquals(1, result.size());
         assertEquals("test_nick", firstEntry.getKey());
-        assertEquals(BigDecimal.valueOf(1000), firstEntry.getValue());
+        assertEquals(BigDecimal.valueOf(1000).setScale(5), firstEntry.getValue());
     }
 
     @Test
@@ -63,7 +63,7 @@ class UserLeaderboardServiceTest {
         }
 
         when(userService.getUsers()).thenReturn(users);
-        when(rateCaches.getRateCache()).thenReturn(rates);
+        when(rateService.getRecentRates()).thenReturn(rates);
 
 //        When
         Map<String, BigDecimal> result = service.generateLeaderboard();
@@ -72,7 +72,7 @@ class UserLeaderboardServiceTest {
 //        Then
         assertEquals(1, result.size());
         assertEquals("test_nick", firstEntry.getKey());
-        assertEquals(BigDecimal.valueOf(1001), firstEntry.getValue());
+        assertEquals(BigDecimal.valueOf(1001).setScale(5), firstEntry.getValue());
     }
 
     @Test
@@ -85,13 +85,13 @@ class UserLeaderboardServiceTest {
         users.add(user);
         Map<String, BigDecimal> rates = new HashMap<>();
         String[] currency = {"BTC", "BGN", "CHF", "CZK", "EUR", "GBP", "HUF", "NOK", "RON", "RUB", "SEK", "USD"};
-        int i = 1;
+
         for (String cur : currency) {
-            rates.put(cur, new BigDecimal(i++));
+            rates.put(cur, BigDecimal.ONE);
         }
 
         when(userService.getUsers()).thenReturn(users);
-        when(rateCaches.getRateCache()).thenReturn(rates);
+        when(rateService.getRecentRates()).thenReturn(rates);
 
 //        When
         Map<String, BigDecimal> result = service.generateLeaderboard();
@@ -100,7 +100,7 @@ class UserLeaderboardServiceTest {
 //        Then
         assertEquals(1, result.size());
         assertEquals("test_nick", firstEntry.getKey());
-        assertEquals(BigDecimal.valueOf(1026), firstEntry.getValue());
+        assertEquals(BigDecimal.valueOf(1006).setScale(5), firstEntry.getValue());
     }
 
     @Test
@@ -125,7 +125,7 @@ class UserLeaderboardServiceTest {
         }
 
         when(userService.getUsers()).thenReturn(users);
-        when(rateCaches.getRateCache()).thenReturn(rates);
+        when(rateService.getRecentRates()).thenReturn(rates);
 
 //        When
         Map<String, BigDecimal> result = service.generateLeaderboard();
@@ -135,12 +135,12 @@ class UserLeaderboardServiceTest {
         assertEquals(3, result.size());
         Map.Entry<String, BigDecimal> firstEntry = iterator.next();
         assertEquals("test_nick2", firstEntry.getKey());
-        assertEquals(BigDecimal.valueOf(1005), firstEntry.getValue());
+        assertEquals(BigDecimal.valueOf(1005).setScale(5), firstEntry.getValue());
         Map.Entry<String, BigDecimal> secondEntry = iterator.next();
         assertEquals("test_nick3", secondEntry.getKey());
-        assertEquals(BigDecimal.valueOf(1003), secondEntry.getValue());
+        assertEquals(BigDecimal.valueOf(1003).setScale(5), secondEntry.getValue());
         Map.Entry<String, BigDecimal> thirdEntry = iterator.next();
         assertEquals("test_nick", thirdEntry.getKey());
-        assertEquals(BigDecimal.valueOf(1001), thirdEntry.getValue());
+        assertEquals(BigDecimal.valueOf(1001).setScale(5), thirdEntry.getValue());
     }
 }

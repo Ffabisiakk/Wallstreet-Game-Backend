@@ -30,4 +30,13 @@ class BlockchainInfoClientTest {
 //        Then
         assertNotEquals(-1, result);
     }
+
+    @Test
+    public void shouldFetchBitcoinRatesBigValue() {
+//        When
+        Double result = client.getBitcoinCurrencyRate("PLN", String.valueOf(Integer.MAX_VALUE));
+
+//        Then
+        assertNotEquals(-1, result);
+    }
 }

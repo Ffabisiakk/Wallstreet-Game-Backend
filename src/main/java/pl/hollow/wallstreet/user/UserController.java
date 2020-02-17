@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pl.hollow.wallstreet.user.dto.UserDto;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin("*")
@@ -13,11 +15,13 @@ class UserController {
 
     private UserMapper userMapper;
     private UserService userService;
+    private UserLeaderboardService userLeaderboardService;
 
     @Autowired
-    public UserController(UserMapper userMapper, UserService userService) {
+    public UserController(UserMapper userMapper, UserService userService, UserLeaderboardService userLeaderboardService) {
         this.userMapper = userMapper;
         this.userService = userService;
+        this.userLeaderboardService = userLeaderboardService;
     }
 
     @GetMapping
@@ -28,6 +32,17 @@ class UserController {
     @GetMapping("/{username}")
     public UserDto getUser(@PathVariable String username) {
         return userMapper.userToUserDto(userService.getUser(username));
+    }
+
+    @GetMapping("/leaderboard")
+    public Map<String, BigDecimal> getLeaderboard() {
+        return userLeaderboardService.getLeaderboard();
+    }
+
+    @GetMapping("/login")
+    public boolean login(@RequestBody UserDto userDto) {
+        User user = userService.getUser(userDto.getNickname());
+        return userDto.getPassword().equals(user.getPassword());
     }
 
     @PostMapping
